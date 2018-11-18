@@ -8,6 +8,8 @@ package ohtu;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import com.google.gson.JsonObject;
+
 
 /**
  *
@@ -21,6 +23,7 @@ public class Course {
     private int year;
     private int[] exercises;
     private List<Submission> submissions;
+    private JsonObject stats;
     
     
     public int totalExercises() {
@@ -110,6 +113,10 @@ public class Course {
     public void setYear(int year) {
         this.year = year;
     }
+
+    public void setStats(JsonObject stats) {
+        this.stats = stats;
+    }
     
     private String submissionString() {
         if (submissions == null) {
@@ -124,12 +131,35 @@ public class Course {
         return s;
         
     }
+
+    private String statsString() {
+        if (stats.getAsJsonObject("1") == null) {
+            return "";
+        }
+
+        int totalEx = 0;
+        int totalHrs = 0;
+        int totalStds = 0;
+        Integer i = 1;
+        while(stats.getAsJsonObject(i.toString()) != null) {
+            JsonObject week = stats.getAsJsonObject(i.toString());
+
+            totalEx += week.get("exercise_total").getAsInt();
+            totalHrs += week.get("hour_total").getAsInt();
+            totalStds += week.get("students").getAsInt();
+
+            i++;
+        }
+
+        return "kurssilla yhteensä " + totalStds + " palautusta, palautettuja tehtäviä " + totalEx + " kpl, aikaa käytetty yhteensä " + totalHrs + " tuntia";
+    }
     
 
     @Override
     public String toString() {
         return fullName + " " + term + " " + year + " \n" + submissionString()
-               + "  yhteensä: " +  totalSubmissionExercises() +" / " + totalExercises() + " tehtävää, " + totalHours() + " tuntia\n"; 
+               + "  yhteensä: " +  totalSubmissionExercises() +" / " + totalExercises() + " tehtävää, " + totalHours() + " tuntia\n"
+               + statsString() + "\n"; 
     }
     
     
