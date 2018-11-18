@@ -76,7 +76,7 @@ public class Submission {
 
     @Override
     public String toString() {
-        return "viikko " + week + " aikaa kului "+ hours + " tehtäviä tehty " + exercises.length + " tehtävät " + exercisesAsString() ;
+        return "viikko " + week + "\n     aikaa kului "+ hours + " tehtäviä tehty " + exercises.length + " tehtävät " + exercisesAsString() ;
     }
 
 }

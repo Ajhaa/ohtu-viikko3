@@ -26,6 +26,28 @@ public class Course {
     public int totalExercises() {
         return Arrays.stream(exercises).sum();
     }
+
+    public int totalSubmissionExercises() {
+        int sum = 0;
+
+        if (submissions == null) {
+            return 0;
+        } 
+
+        for (Submission sub: submissions) {
+            sum += Arrays.stream(sub.getExercises()).count();
+        }
+
+        return sum;
+    }
+
+    public int totalHours() {
+        if (submissions == null) {
+            return 0;
+        }
+
+        return submissions.stream().mapToInt(s -> s.getHours()).sum();
+    }
     
     public void addSubmission(Submission s) {
         if (submissions == null) {
@@ -91,12 +113,12 @@ public class Course {
     
     private String submissionString() {
         if (submissions == null) {
-            return "";
+            return "\n";
         }
         String s = "\n";
         
         for (Submission sb : submissions) {
-            s += sb + "\n";
+            s += "  " + sb + "\n";
         }
         
         return s;
@@ -106,7 +128,8 @@ public class Course {
 
     @Override
     public String toString() {
-        return fullName + " " + term + " " + year + " " + submissionString(); 
+        return fullName + " " + term + " " + year + " \n" + submissionString()
+               + "  yhteensä: " +  totalSubmissionExercises() +" / " + totalExercises() + " tehtävää, " + totalHours() + " tuntia\n"; 
     }
     
     
