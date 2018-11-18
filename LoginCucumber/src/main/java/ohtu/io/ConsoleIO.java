@@ -2,7 +2,10 @@
 package ohtu.io;
 
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@Component
 public class ConsoleIO implements IO {
     private Scanner scanner = new Scanner(System.in);
     

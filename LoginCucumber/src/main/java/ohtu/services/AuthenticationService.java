@@ -6,11 +6,15 @@ import java.util.List;
 import ohtu.data_access.UserDao;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
+@Component
 public class AuthenticationService {
 
     private UserDao userDao;
 
+    @Autowired
     public AuthenticationService(UserDao userDao) {
         this.userDao = userDao;
     }
